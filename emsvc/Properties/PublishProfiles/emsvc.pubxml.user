@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit http://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <LastUsedBuildConfiguration>Release</LastUsedBuildConfiguration>
+    <LastUsedPlatform>Any CPU</LastUsedPlatform>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAASQmAF+doJ0uiH6+4k5QnOgAAAAACAAAAAAAQZgAAAAEAACAAAAAdBm9+QNBr4WmHirbeE/rVczjLCNPZjgLL7JJ7tq0/XgAAAAAOgAAAAAIAACAAAAAGVMYmt9A/w4PpDduMEqKKaNhEQuNEosx0iVw2bZhrYyAAAAD95hgbzo5gkbsC7XwzjKf5xJNMK/WsMiPBBHQqEL70L0AAAADiVlYWS13TLgaFBfbfgzo6lB/LurVJkcOTN1flN3xq97vRbP16u3jLHLX9M/7VrEC5fL++mAteLdI4f2cgeAvg</EncryptedPassword>
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="bin/emsvc.dll">
+      <publishTime>08/04/2013 07:08:23</publishTime>
+    </File>
+    <File Include="bin/emsvc.pdb">
+      <publishTime>08/04/2013 07:07:14</publishTime>
+    </File>
+    <File Include="emsvc.svc">
+      <publishTime>06/02/2013 02:26:40</publishTime>
+    </File>
+    <File Include="Global.asax">
+      <publishTime>06/02/2013 02:35:30</publishTime>
+    </File>
+    <File Include="Web.config">
+      <publishTime>07/01/2013 02:40:19</publishTime>
+    </File>
+  </ItemGroup>
+</Project>

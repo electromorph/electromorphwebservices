@@ -1,0 +1,9 @@
+C:\Users\electromorph\Documents\Visual Studio 2010\Projects\ShaftCouplerSvc\emsvc\bin\emsvc.dll
+C:\Users\electromorph\Documents\Visual Studio 2010\Projects\ShaftCouplerSvc\emsvc\bin\emsvc.pdb
+C:\Users\electromorph\Documents\Visual Studio 2010\Projects\ShaftCouplerSvc\emsvc\obj\Debug\emsvc.dll
+C:\Users\electromorph\Documents\Visual Studio 2010\Projects\ShaftCouplerSvc\emsvc\obj\Debug\emsvc.pdb
+D:\Code\electromorphwebservices\emsvc\bin\emsvc.dll
+D:\Code\electromorphwebservices\emsvc\bin\emsvc.pdb
+D:\Code\electromorphwebservices\emsvc\obj\Debug\emsvc.csprojResolveAssemblyReference.cache
+D:\Code\electromorphwebservices\emsvc\obj\Debug\emsvc.dll
+D:\Code\electromorphwebservices\emsvc\obj\Debug\emsvc.pdb
