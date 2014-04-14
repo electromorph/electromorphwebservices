@@ -9,13 +9,17 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <LastUsedPlatform>Any CPU</LastUsedPlatform>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
     <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAASQmAF+doJ0uiH6+4k5QnOgAAAAACAAAAAAAQZgAAAAEAACAAAAAdBm9+QNBr4WmHirbeE/rVczjLCNPZjgLL7JJ7tq0/XgAAAAAOgAAAAAIAACAAAAAGVMYmt9A/w4PpDduMEqKKaNhEQuNEosx0iVw2bZhrYyAAAAD95hgbzo5gkbsC7XwzjKf5xJNMK/WsMiPBBHQqEL70L0AAAADiVlYWS13TLgaFBfbfgzo6lB/LurVJkcOTN1flN3xq97vRbP16u3jLHLX9M/7VrEC5fL++mAteLdI4f2cgeAvg</EncryptedPassword>
+    <_PublishTargetUrl>D:\emsvc</_PublishTargetUrl>
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/emsvc.dll">
-      <publishTime>08/04/2013 07:08:23</publishTime>
+      <publishTime>04/11/2014 21:25:44</publishTime>
     </File>
     <File Include="bin/emsvc.pdb">
       <publishTime>08/04/2013 07:07:14</publishTime>
+    </File>
+    <File Include="EmailMe.aspx">
+      <publishTime>04/11/2014 21:24:53</publishTime>
     </File>
     <File Include="emsvc.svc">
       <publishTime>06/02/2013 02:26:40</publishTime>
@@ -23,8 +27,14 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Global.asax">
       <publishTime>06/02/2013 02:35:30</publishTime>
     </File>
+    <File Include="sitemap.xml">
+      <publishTime>08/04/2013 07:18:34</publishTime>
+    </File>
     <File Include="Web.config">
-      <publishTime>07/01/2013 02:40:19</publishTime>
+      <publishTime>04/11/2014 22:15:52</publishTime>
+    </File>
+    <File Include="WebForm1.aspx">
+      <publishTime>04/11/2014 21:23:34</publishTime>
     </File>
   </ItemGroup>
 </Project>
