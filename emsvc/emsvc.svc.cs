@@ -26,17 +26,22 @@ namespace emsvc
             return (Variable == "true");
         }
 
-        public Stream GetCouplerPicture(string IsLHDiamMetric, string LHDiam, string IsRHDiamMetric, string RHDiam, string Magnification)
+        public Stream GetCouplerPicture(string IsLHDiamMetric, string LHDiam, string IsRHDiamMetric, string RHDiam, string Magnification, string NumberOfGrubScrews, string GrubScrewColour)
         {
             var scp = new ShaftCouplerPicture();
+            int numGrubScrews = 0;
             double LHD, RHD;
             int magnification;
+            if (!int.TryParse(NumberOfGrubScrews, out numGrubScrews))
+            {
+                throw new WebFaultException<string>("Number Of Grub Screws must be a number", HttpStatusCode.BadRequest);
+            }
             if (!double.TryParse(LHDiam, out LHD) || !double.TryParse(RHDiam, out RHD) || !int.TryParse(Magnification, out magnification))
             {
                 throw new WebFaultException<string>("The LHDiam or RHDiam fields were not of type 'double'.", HttpStatusCode.BadRequest);
             }
             WebOperationContext.Current.OutgoingResponse.ContentType = "image/png";
-            return scp.GetCouplerPicture(IsYes(IsLHDiamMetric), LHD, IsYes(IsRHDiamMetric), RHD, magnification);
+            return scp.GetCouplerPicture(IsYes(IsLHDiamMetric), LHD, IsYes(IsRHDiamMetric), RHD, magnification, numGrubScrews, GrubScrewColour);
         }
 
         public Stream GetConverterPicture(string IsLHDiamMetric, string LHDiam, string IsRHDiamMetric, string RHDiam, string Magnification)

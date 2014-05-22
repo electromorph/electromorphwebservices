@@ -23,10 +23,8 @@ namespace emsvc
         int rightOffset = 100;  //Leaving space for a dimension at the bottom
         string Diam1 = string.Empty;
         string Diam2 = string.Empty;
-        bool isLHDimensionMetric = true;
-        bool isRHDimensionMetric = true;
 
-        public MemoryStream GetCouplerPicture(bool isLHDimensionMetric, double leftHandDiameterPassedIn, bool isRHDimensionMetric, double rightHandDiameterPassedIn, int magnification)
+        public MemoryStream GetCouplerPicture(bool isLHDimensionMetric, double leftHandDiameterPassedIn, bool isRHDimensionMetric, double rightHandDiameterPassedIn, int magnification, int numGrubScrews, string grubScrewColour)
         {
             //Convert from inches if necessary
             double leftHandDiameterInmm = isLHDimensionMetric ? leftHandDiameterPassedIn : (leftHandDiameterPassedIn * 25.4);
@@ -35,14 +33,14 @@ namespace emsvc
             rightHandDiameterInHalfmm = Convert.ToInt32(2 * rightHandDiameterInmm);
             string leftHandDimensionText = isLHDimensionMetric ? leftHandDiameterPassedIn.ToString() + "mm" : Convert.ToInt32((leftHandDiameterPassedIn*16)).ToString() + "/16\"";
             string rightHandDimensionText = isRHDimensionMetric ? rightHandDiameterPassedIn.ToString() + "mm" : Convert.ToInt32((rightHandDiameterPassedIn * 16)).ToString() + "/16\"";
-            Bitmap bmp = this.GenerateBitmap(leftHandDiameterInHalfmm, rightHandDiameterInHalfmm, magnification, leftHandDimensionText, rightHandDimensionText);
+            Bitmap bmp = this.GenerateBitmap(leftHandDiameterInHalfmm, rightHandDiameterInHalfmm, magnification, leftHandDimensionText, rightHandDimensionText, numGrubScrews, grubScrewColour);
             var ms = new MemoryStream();
             bmp.Save(ms, ImageFormat.Png);
             ms.Position = 0;
             return ms;
         }
 
-        private Bitmap GenerateBitmap(double Diam1, double Diam2, int sizeMultiplier, string leftHandDimensionText, string rightHandDimensionText)
+        private Bitmap GenerateBitmap(double Diam1, double Diam2, int sizeMultiplier, string leftHandDimensionText, string rightHandDimensionText, int numGrubScrews, string grubScrewColour)
         {
             if ((sizeMultiplier <= 0) || (sizeMultiplier > 20))
             {
@@ -64,8 +62,10 @@ namespace emsvc
             //g.FillPath(new SolidBrush(Color.Gold), shaftCoupler);
             var brush = new LinearGradientBrush(new Point(leftOffset,topOffset), new Point(leftOffset+width,topOffset), Color.Gold, Color.Goldenrod);
             SolidBrush solidBlack = new SolidBrush(Color.Black);
+            SolidBrush grubScrewBrush = new SolidBrush((grubScrewColour == "silver" ? Color.Silver : Color.Black));
             g.FillPath(brush, shaftCoupler);
             System.Drawing.Pen pen = new Pen(Color.Black, 0);
+            System.Drawing.Pen screwPen = new Pen((grubScrewColour == "silver" ? Color.Silver : Color.Black), 0);
             g.DrawPath(pen, shaftCoupler);
             GraphicsPath shaftCouplerSide2 = DrawCouplerSide2(width, height, leftHandDiameterAsDrawn, rightHandDiameterAsDrawn);
             g.FillPath(brush, shaftCouplerSide2);
@@ -75,10 +75,10 @@ namespace emsvc
             g.DrawPath(pen, GetScrewPositionDimension(sizeMultiplier));
             GraphicsPath screw1Path = GetScrew(10 * sizeMultiplier, height / 2);
             GraphicsPath screw2Path = GetScrew(width - (10 * sizeMultiplier), height / 2);
-            g.DrawPath(pen, screw1Path);
-            g.FillPath(solidBlack, screw1Path);
-            g.DrawPath(pen, screw2Path);
-            g.FillPath(solidBlack, screw2Path);
+            g.DrawPath(screwPen, screw1Path);
+            g.FillPath(grubScrewBrush, screw1Path);
+            g.DrawPath(screwPen, screw2Path);
+            g.FillPath(grubScrewBrush, screw2Path);
             g.DrawPath(pen, GetRHDiameterDimension(width, height, rightHandDiameterAsDrawn));
             g.DrawPath(pen, GetLHDiameterDimension(width, height, leftHandDiameterAsDrawn));
             //Draw height dimension figure

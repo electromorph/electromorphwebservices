@@ -25,8 +25,8 @@ namespace emsvc
         Stream GetConverterPicture(string IsLHDiamMetric, string LHDiam, string IsRHDiamMetric, string RHDiam, string Magnification);
 
         [Description("Get Picture Of Shaft Coupler")]
-        [WebGet(UriTemplate = "GetCoupler/{IsLHDiamMetric}/{LHDiam}/{IsRHDiamMetric}/{RHDiam}/{Magnification}/picture.png")]
-        Stream GetCouplerPicture(string IsLHDiamMetric, string LHDiam, string IsRHDiamMetric, string RHDiam, string Magnification);
+        [WebGet(UriTemplate = "GetCoupler/{IsLHDiamMetric}/{LHDiam}/{IsRHDiamMetric}/{RHDiam}/{Magnification}/{NumberOfGrubScrews}/{GrubScrewColour}/picture.png")]
+        Stream GetCouplerPicture(string IsLHDiamMetric, string LHDiam, string IsRHDiamMetric, string RHDiam, string Magnification, string NumberOfGrubScrews, string GrubScrewColour);
 
         [Description("Get Price of shaft coupler")]
         [WebGet(UriTemplate = "GetCouplerPrice/{IsLHDiamMetric}/{LHDiam}/{IsRHDiamMetric}/{RHDiam}/{Quantity}")]

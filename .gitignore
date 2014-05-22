@@ -7,20 +7,10 @@
 #- SVN
 #- Also has detail about how to include files within ignored folders
 
-#Zuken Solution files
-/src/Data
-!/src/Data/webdav.lic
-/src/Databases
-/src/Website/temp
-/src/Website/upload
-/src/Website/App_Data/MediaCache
-/src/Website/bin
-/src/Website/Data
-/src/Website/sitecore/admin/Packages
-/src/Website/temp
+#Electromorph Solution files
+emsvc/bin
+emsvc/obj
 sitemap.xml
-IconCache
-/src/*/Debug
 
 #Tooling
 _ReSharper*/
