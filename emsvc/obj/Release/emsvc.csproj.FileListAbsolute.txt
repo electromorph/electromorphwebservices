@@ -3,3 +3,8 @@ C:\Users\electromorph\Documents\Visual Studio 2010\Projects\ShaftCouplerSvc\emsv
 C:\Users\electromorph\Documents\Visual Studio 2010\Projects\ShaftCouplerSvc\emsvc\obj\Release\emsvc.dll
 C:\Users\electromorph\Documents\Visual Studio 2010\Projects\ShaftCouplerSvc\emsvc\obj\Release\emsvc.pdb
 C:\Users\electromorph\Documents\Visual Studio 2010\Projects\ShaftCouplerSvc\emsvc\obj\Release\emsvc.csprojResolveAssemblyReference.cache
+D:\Code\electromorphwebservices\emsvc\obj\Release\emsvc.dll
+D:\Code\electromorphwebservices\emsvc\bin\emsvc.dll
+D:\Code\electromorphwebservices\emsvc\bin\emsvc.pdb
+D:\Code\electromorphwebservices\emsvc\obj\Release\emsvc.pdb
+D:\Code\electromorphwebservices\emsvc\obj\Release\emsvc.csprojResolveAssemblyReference.cache
