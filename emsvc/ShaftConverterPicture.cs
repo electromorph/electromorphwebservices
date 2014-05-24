@@ -20,16 +20,12 @@ namespace emsvc
         int rightOffset = 100;  //Leaving space for a dimension at the bottom
         string Diam1 = string.Empty;
         string Diam2 = string.Empty;
-        bool isLHDimensionMetric = true;
-        bool isRHDimensionMetric = true;
 
-        public MemoryStream GetConverterPicture(bool isLHDimensionMetric, double leftHandDiameterPassedIn, bool isRHDimensionMetric, double rightHandDiameterPassedIn, int magnification)
+        public MemoryStream GetConverterPicture(double leftHandDiameterPassedIn, string leftHandDimensionText, double rightHandDiameterPassedIn, string rightHandDimensionText, int magnification)
         {
             //Convert from inches if necessary
-            double leftHandDiameterInmm = isLHDimensionMetric ? leftHandDiameterPassedIn : (leftHandDiameterPassedIn * 25.4);
-            double rightHandDiameterInmm = isRHDimensionMetric ? rightHandDiameterPassedIn : (rightHandDiameterPassedIn * 25.4);
-            string leftHandDimensionText = isLHDimensionMetric ? leftHandDiameterPassedIn.ToString() + "mm" : ConvertDecimalToImperialMeasurement(leftHandDiameterPassedIn);
-            string rightHandDimensionText = isRHDimensionMetric ? rightHandDiameterPassedIn.ToString() + "mm" : ConvertDecimalToImperialMeasurement(rightHandDiameterPassedIn);
+            double leftHandDiameterInmm = leftHandDiameterPassedIn;
+            double rightHandDiameterInmm = rightHandDiameterPassedIn;
             leftHandDiameterInHalfmm = 2 * Convert.ToInt32(leftHandDiameterInmm);
             rightHandDiameterInHalfmm = 2 * Convert.ToInt32(rightHandDiameterInmm);
             Bitmap bmp = this.GenerateBitmap(leftHandDiameterInHalfmm, rightHandDiameterInHalfmm, magnification, leftHandDimensionText, rightHandDimensionText);

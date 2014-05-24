@@ -21,15 +21,11 @@ namespace emsvc
         string EchoWithGet(string s);
 
         [Description("Get Picture Of Shaft Converter")]
-        [WebGet(UriTemplate = "GetConverter/{IsLHDiamMetric}/{LHDiam}/{IsRHDiamMetric}/{RHDiam}/{Magnification}/picture.png")]
-        Stream GetConverterPicture(string IsLHDiamMetric, string LHDiam, string IsRHDiamMetric, string RHDiam, string Magnification);
+        [WebGet(UriTemplate = "GetConverter/{LHDiam}/{LHDiamDesc}/{RHDiam}/{RHDiamDesc}/{Magnification}/picture.png")]
+        Stream GetConverterPicture(string LHDiam, string LHDiamDesc, string RHDiam, string RHDiamDesc, string Magnification);
 
         [Description("Get Picture Of Shaft Coupler")]
-        [WebGet(UriTemplate = "GetCoupler/{IsLHDiamMetric}/{LHDiam}/{IsRHDiamMetric}/{RHDiam}/{Magnification}/{NumberOfGrubScrews}/{GrubScrewColour}/picture.png")]
-        Stream GetCouplerPicture(string IsLHDiamMetric, string LHDiam, string IsRHDiamMetric, string RHDiam, string Magnification, string NumberOfGrubScrews, string GrubScrewColour);
-
-        [Description("Get Price of shaft coupler")]
-        [WebGet(UriTemplate = "GetCouplerPrice/{IsLHDiamMetric}/{LHDiam}/{IsRHDiamMetric}/{RHDiam}/{Quantity}")]
-        Stream GetCouplerPrice(string IsLHDiamMetric, string LHDiam, string IsRHDiamMetric, string RHDiam, string Quantity);
+        [WebGet(UriTemplate = "GetCoupler/{LHDiam}/{LHDiamDesc}/{RHDiam}/{RHDiamDesc}/{Magnification}/{NumberOfGrubScrews}/{GrubScrewColour}/picture.png")]
+        Stream GetCouplerPicture(string LHDiam, string LHDiamDesc, string RHDiam, string RHDiamDesc, string Magnification, string NumberOfGrubScrews, string GrubScrewColour);
     }
 }

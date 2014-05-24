@@ -24,15 +24,15 @@ namespace emsvc
         string Diam1 = string.Empty;
         string Diam2 = string.Empty;
 
-        public MemoryStream GetCouplerPicture(bool isLHDimensionMetric, double leftHandDiameterPassedIn, bool isRHDimensionMetric, double rightHandDiameterPassedIn, int magnification, int numGrubScrews, string grubScrewColour)
+        public MemoryStream GetCouplerPicture(double leftHandDiameterPassedIn, string leftHandDimensionText, double rightHandDiameterPassedIn, string rightHandDimensionText, int magnification, int numGrubScrews, string grubScrewColour)
         {
             //Convert from inches if necessary
-            double leftHandDiameterInmm = isLHDimensionMetric ? leftHandDiameterPassedIn : (leftHandDiameterPassedIn * 25.4);
-            double rightHandDiameterInmm = isRHDimensionMetric ? rightHandDiameterPassedIn : (rightHandDiameterPassedIn * 25.4);
+            double leftHandDiameterInmm = leftHandDiameterPassedIn;//isLHDimensionMetric ? leftHandDiameterPassedIn : (leftHandDiameterPassedIn * 25.4);
+            double rightHandDiameterInmm = rightHandDiameterPassedIn;//isRHDimensionMetric ? rightHandDiameterPassedIn : (rightHandDiameterPassedIn * 25.4);
             leftHandDiameterInHalfmm = Convert.ToInt32(2 * leftHandDiameterInmm);
             rightHandDiameterInHalfmm = Convert.ToInt32(2 * rightHandDiameterInmm);
-            string leftHandDimensionText = isLHDimensionMetric ? leftHandDiameterPassedIn.ToString() + "mm" : Convert.ToInt32((leftHandDiameterPassedIn*16)).ToString() + "/16\"";
-            string rightHandDimensionText = isRHDimensionMetric ? rightHandDiameterPassedIn.ToString() + "mm" : Convert.ToInt32((rightHandDiameterPassedIn * 16)).ToString() + "/16\"";
+            //string leftHandDimensionText = isLHDimensionMetric ? leftHandDiameterPassedIn.ToString() + "mm" : ConvertDecimalToImperialMeasurement(leftHandDiameterPassedIn);// Convert.ToInt32((leftHandDiameterPassedIn * 16)).ToString() + "/16\"";
+            //string rightHandDimensionText = isRHDimensionMetric ? rightHandDiameterPassedIn.ToString() + "mm" : ConvertDecimalToImperialMeasurement(rightHandDiameterPassedIn); //Convert.ToInt32((rightHandDiameterPassedIn * 16)).ToString() + "/16\"";
             Bitmap bmp = this.GenerateBitmap(leftHandDiameterInHalfmm, rightHandDiameterInHalfmm, magnification, leftHandDimensionText, rightHandDimensionText, numGrubScrews, grubScrewColour);
             var ms = new MemoryStream();
             bmp.Save(ms, ImageFormat.Png);
@@ -60,7 +60,7 @@ namespace emsvc
             g.FillPath(new SolidBrush(Color.White), whiteBackground);
             GraphicsPath shaftCoupler = DrawCouplerSide1(width, height, leftHandDiameterAsDrawn, rightHandDiameterAsDrawn);
             //g.FillPath(new SolidBrush(Color.Gold), shaftCoupler);
-            var brush = new LinearGradientBrush(new Point(leftOffset,topOffset), new Point(leftOffset+width,topOffset), Color.Gold, Color.Goldenrod);
+            var brush = new LinearGradientBrush(new Point(leftOffset, topOffset), new Point(leftOffset + width, topOffset), Color.Gold, Color.Goldenrod);
             SolidBrush solidBlack = new SolidBrush(Color.Black);
             SolidBrush grubScrewBrush = new SolidBrush((grubScrewColour == "silver" ? Color.Silver : Color.Black));
             g.FillPath(brush, shaftCoupler);
@@ -73,12 +73,25 @@ namespace emsvc
             g.DrawPath(pen, GetHeightDimension(width, height));
             g.DrawPath(pen, GetWidthDimension(width, height));
             g.DrawPath(pen, GetScrewPositionDimension(sizeMultiplier));
-            GraphicsPath screw1Path = GetScrew(10 * sizeMultiplier, height / 2);
-            GraphicsPath screw2Path = GetScrew(width - (10 * sizeMultiplier), height / 2);
-            g.DrawPath(screwPen, screw1Path);
-            g.FillPath(grubScrewBrush, screw1Path);
-            g.DrawPath(screwPen, screw2Path);
-            g.FillPath(grubScrewBrush, screw2Path);
+            //Draw top-left screw
+            GraphicsPath screw1UpperPath = GetScrew(10 * sizeMultiplier, 4 * height / 9, sizeMultiplier);
+            g.DrawPath(screwPen, screw1UpperPath);
+            g.FillPath(grubScrewBrush, screw1UpperPath);
+            //Draw bottom-right screw
+            GraphicsPath screw2LowerPath = GetUpsideDownScrew(width - (10 * sizeMultiplier), height, 4 * height / 9, sizeMultiplier);
+            g.DrawPath(screwPen, screw2LowerPath);
+            g.FillPath(grubScrewBrush, screw2LowerPath);
+            if (numGrubScrews == 4)
+            {
+                //Draw top-right screw
+                GraphicsPath screw2UpperPath = GetScrew(width - (10 * sizeMultiplier), 4 * height / 9, sizeMultiplier);
+                g.DrawPath(screwPen, screw2UpperPath);
+                g.FillPath(grubScrewBrush, screw2UpperPath);
+                //Draw bottom-left screw
+                GraphicsPath screw1LowerPath = GetUpsideDownScrew(10 * sizeMultiplier, height, 4 * height / 9, sizeMultiplier);
+                g.DrawPath(screwPen, screw1LowerPath);
+                g.FillPath(grubScrewBrush, screw1LowerPath);
+            }
             g.DrawPath(pen, GetRHDiameterDimension(width, height, rightHandDiameterAsDrawn));
             g.DrawPath(pen, GetLHDiameterDimension(width, height, leftHandDiameterAsDrawn));
             //Draw height dimension figure
@@ -171,28 +184,56 @@ namespace emsvc
             return path;
         }
 
-
-        private GraphicsPath GetScrew(int xPosition, int length)
+        private GraphicsPath GetScrew(int xPosition, int length, int sizeMultiplier)
         {
             xPosition += leftOffset;
             int pitch = 2;
             length = length / pitch;
+            int screwWidth = 1 * sizeMultiplier;
+            GraphicsPath path = new GraphicsPath();
+            GraphicsPath pathLine = new GraphicsPath();
+            int i = 0;
+            //Draw LHS of screw
+            for (i = 0; i <= length; i = i + 2)
+            {
+                pathLine.AddLine(new Point(xPosition - screwWidth, i * pitch + topOffset - 5), new Point(xPosition - screwWidth*2, (i + 1) * pitch + topOffset - 5));
+                pathLine.AddLine(new Point(xPosition - screwWidth * 2, (i + 1) * pitch + topOffset - 5), new Point(xPosition - screwWidth, (i + 2) * pitch + topOffset - 5));
+            }
+            //Draw Flat Bottom of screw
+            pathLine.AddLine(new Point(xPosition - screwWidth, i * pitch + topOffset), new Point(xPosition + screwWidth, i * pitch + topOffset));
+            //Draw RHS of screw
+            for (i = length+pitch; i >= 0; i = i - 2)
+            {
+                pathLine.AddLine(new Point(xPosition + screwWidth, i * pitch + topOffset - 5), new Point(xPosition + screwWidth*2, (i - 1) * pitch + topOffset - 5));
+                pathLine.AddLine(new Point(xPosition + screwWidth*2, (i - 1) * pitch + topOffset - 5), new Point(xPosition + screwWidth, (i - 2) * pitch + topOffset - 5));
+            }
+            path.AddPath(pathLine, true);
+            path.CloseFigure();
+            return path;
+        }
+
+        private GraphicsPath GetUpsideDownScrew(int xPosition, int yPosition, int length, int sizeMultiplier)
+        {
+            xPosition += leftOffset;
+            int pitch = 2;
+            length = length / pitch;
+            int screwWidth = 1 * sizeMultiplier;
             GraphicsPath path = new GraphicsPath();
             GraphicsPath pathLine = new GraphicsPath();
             int i = 0;
             //Draw LHS of screw
             for (i = 0; i < length; i = i + 2)
             {
-                pathLine.AddLine(new Point(xPosition - 3, i * pitch + topOffset-5), new Point(xPosition - 6, (i + 1) * pitch + topOffset-5));
-                pathLine.AddLine(new Point(xPosition - 6, (i + 1) * pitch + topOffset-5), new Point(xPosition - 3, (i + 2) * pitch + topOffset-5));
+                pathLine.AddLine(new Point(xPosition - screwWidth, yPosition - i * pitch + topOffset + 5), new Point(xPosition - screwWidth * 2, yPosition - (i + 1) * pitch + topOffset + 5));
+                pathLine.AddLine(new Point(xPosition - screwWidth * 2, yPosition - (i + 1) * pitch + topOffset + 5), new Point(xPosition - screwWidth, yPosition - (i + 2) * pitch + topOffset + 5));
             }
             //Draw Flat Bottom of screw
-            pathLine.AddLine(new Point(xPosition - 3, i * pitch + topOffset), new Point(xPosition + 3, i * pitch + topOffset));
+            pathLine.AddLine(new Point(xPosition - screwWidth, yPosition - i * pitch + topOffset), new Point(xPosition + screwWidth, yPosition - i * pitch + topOffset));
             //Draw RHS of screw
             for (i = length; i > 0; i = i - 2)
             {
-                pathLine.AddLine(new Point(xPosition + 3, (i) * pitch + topOffset-5), new Point(xPosition + 6, (i - 1) * pitch + topOffset-5));
-                pathLine.AddLine(new Point(xPosition + 6, (i - 1) * pitch + topOffset-5), new Point(xPosition + 3, (i - 2) * pitch + topOffset-5));
+                pathLine.AddLine(new Point(xPosition + screwWidth, yPosition - (i) * pitch + topOffset + 5), new Point(xPosition + screwWidth * 2, yPosition - (i - 1) * pitch + topOffset + 5));
+                pathLine.AddLine(new Point(xPosition + screwWidth * 2, yPosition - (i - 1) * pitch + topOffset + 5), new Point(xPosition + screwWidth, yPosition - (i - 2) * pitch + topOffset + 5));
             }
             path.AddPath(pathLine, true);
             path.CloseFigure();
@@ -225,6 +266,19 @@ namespace emsvc
             path.AddPath(pathLine, true);
             path.CloseFigure();
             return path;
+        }
+
+        private string ConvertDecimalToImperialMeasurement(double doubleDiameter)
+        {
+            int numerator = Convert.ToInt32(doubleDiameter * 64);
+            int denominator = 64;
+            while (numerator % 2 == 0)
+            {
+                numerator = numerator /= 2;
+                denominator /= 2;
+            }
+            string returnString = ((denominator != 1) ? numerator.ToString() + "/" + denominator.ToString() : numerator.ToString()) + "\"";
+            return returnString;
         }
     }
 }
